@@ -1,0 +1,61 @@
+:root {
+  --bg-page: #f7f7f5;
+  --surface: #ffffff;
+  --surface-muted: #f1f1ee;
+  --text-primary: #1b1b18;
+  --text-secondary: #6b6a63;
+  --border: #e4e3dd;
+  --border-strong: #d2d1c8;
+  --accent: #4f46e5;
+  --accent-bg: #eeecfc;
+  --accent-text: #362fa0;
+  --radius: 8px;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  font-weight: 600;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: var(--font-sans);
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+input {
+  font-family: var(--font-sans);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}

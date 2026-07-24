@@ -1,0 +1,9 @@
+<div class="home-page">
+  <div class="home-card">
+    <h1>Planning Poker</h1>
+    <p class="subtitle">Create a room, share the link with your team, and estimate tickets together in real time.</p>
+    <button class="primary-btn" (click)="createRoom()" [disabled]="creating()">
+      {{ creating() ? 'Creating room…' : 'Create a room' }}
+    </button>
+  </div>
+</div>

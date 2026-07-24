@@ -1,0 +1,78 @@
+<div class="room-page">
+  <p *ngIf="loading()" class="muted center">Loading room…</p>
+
+  <div class="not-found" *ngIf="!loading() && notFound()">
+    <h2>Room not found</h2>
+    <p class="muted">This room link may have expired or the server may have restarted.</p>
+  </div>
+
+  <ng-container *ngIf="!loading() && !notFound()">
+    <div class="join-page" *ngIf="!myName()">
+      <div class="join-card">
+        <h1>Join this room</h1>
+        <p class="subtitle">Enter your name so your teammates know it's you.</p>
+        <form (ngSubmit)="submitName()">
+          <input type="text" name="name" [(ngModel)]="nameInput" placeholder="Your name" autofocus />
+          <button type="submit" class="primary-btn">Join room</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="room-view" *ngIf="myName()">
+      <div class="room-header">
+        <div>
+          <h1>Estimation room</h1>
+          <span class="conn-label">
+            <span class="conn-dot" [class.live]="connected()"></span>
+            {{ connected() ? 'connected' : 'connecting…' }}
+          </span>
+        </div>
+        <button class="ghost-btn" (click)="copyLink()">{{ linkCopied() ? 'Link copied' : 'Copy invite link' }}</button>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <p class="panel-title">Participants</p>
+          <div class="panel-actions">
+            <button class="ghost-btn" (click)="reveal()" [disabled]="roomState()?.revealed">Reveal</button>
+            <button class="ghost-btn" (click)="resetVotes()">Reset</button>
+          </div>
+        </div>
+
+        <div class="participant-list">
+          <div
+            class="participant-row"
+            *ngFor="let p of roomState()?.participants ?? []"
+            [class.you]="p.name === myName()"
+          >
+            <div class="participant-id">
+              <div class="avatar">{{ initials(p.name) }}</div>
+              <span class="p-name">{{ p.name }}{{ p.name === myName() ? ' (you)' : '' }}</span>
+            </div>
+            <span class="vote-box mono" [class.filled]="p.has_voted">
+              {{ roomState()?.revealed ? (p.value ?? '\u2013') : (p.has_voted ? '\u2022' : '\u2013') }}
+            </span>
+          </div>
+          <p class="muted small" *ngIf="(roomState()?.participants ?? []).length === 0">
+            Waiting for people to join…
+          </p>
+        </div>
+      </div>
+
+      <div class="deck">
+        <p class="deck-label">Your card</p>
+        <div class="deck-cards">
+          <button
+            class="deck-card"
+            *ngFor="let v of roomState()?.card_values ?? []"
+            [class.selected]="myVote() === v"
+            [disabled]="roomState()?.revealed"
+            (click)="vote(v)"
+          >
+            <span class="mono">{{ v === 'coffee' ? '☕' : v }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
