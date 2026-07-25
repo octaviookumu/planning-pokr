@@ -40,3 +40,10 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+.env
+.env.local
+
+# generated from environment variables by scripts/generate-env.mjs -
+# not source, don't commit. postinstall regenerates it automatically.
+src/app/core/config.ts
