@@ -3,6 +3,7 @@ package com.pokerroom.config;
 import com.pokerroom.store.RoomStore;
 import com.pokerroom.websocket.RoomHandshakeInterceptor;
 import com.pokerroom.websocket.RoomWebSocketHandler;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
@@ -14,10 +15,16 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     private final RoomWebSocketHandler roomWebSocketHandler;
     private final RoomStore roomStore;
+    private final String[] allowedOrigins;
 
-    public WebSocketConfig(RoomWebSocketHandler roomWebSocketHandler, RoomStore roomStore) {
+    public WebSocketConfig(
+            RoomWebSocketHandler roomWebSocketHandler,
+            RoomStore roomStore,
+            @Value("${app.cors.allowed-origins}") String allowedOrigins
+    ) {
         this.roomWebSocketHandler = roomWebSocketHandler;
         this.roomStore = roomStore;
+        this.allowedOrigins = allowedOrigins.split(",");
     }
 
     @Override
@@ -25,6 +32,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
         registry
                 .addHandler(roomWebSocketHandler, "/ws/rooms/*")
                 .addInterceptors(new RoomHandshakeInterceptor(roomStore))
-                .setAllowedOrigins("http://localhost:4200");
+                .setAllowedOriginPatterns(allowedOrigins);
     }
 }
