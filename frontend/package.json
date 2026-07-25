@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "generate-env": "node scripts/generate-env.mjs",
+    "postinstall": "npm run generate-env",
     "prestart": "npm run generate-env",
     "prebuild": "npm run generate-env"
   },

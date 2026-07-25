@@ -42,3 +42,7 @@ testem.log
 Thumbs.db
 
 .env
+
+# generated from environment variables by scripts/generate-env.mjs -
+# not source, don't commit. postinstall regenerates it automatically.
+src/app/core/config.ts
