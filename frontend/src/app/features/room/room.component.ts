@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RoomService } from '../../core/services/room.service';
 import { RoomSocketService } from '../../core/services/room-socket.service';
 
@@ -28,7 +28,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private roomService: RoomService,
-    private roomSocket: RoomSocketService
+    private roomSocket: RoomSocketService,
+    private router: Router,
   ) {
     this.roomState = this.roomSocket.state;
     this.connected = this.roomSocket.connected;
@@ -80,6 +81,11 @@ export class RoomComponent implements OnInit, OnDestroy {
   resetVotes(): void {
     this.myVote.set(null);
     this.roomSocket.reset();
+  }
+
+  leaveVote() {
+    this.roomSocket.disconnect();
+    this.router.navigate(['/']);
   }
 
   copyLink(): void {
