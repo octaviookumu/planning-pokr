@@ -20,6 +20,9 @@ public class RoomWebSocketHandler extends TextWebSocketHandler {
     private final RoomStore roomStore;
     private final ObjectMapper objectMapper;
 
+    /**
+        Phase 2: While creating RoomWebSocketHandler, Spring injects
+    */
     public RoomWebSocketHandler(
             RoomConnectionManager connectionManager,
             RoomStateBuilder stateBuilder,
@@ -37,7 +40,7 @@ public class RoomWebSocketHandler extends TextWebSocketHandler {
         String roomId = roomIdOf(session);
         String name = nameOf(session);
         connectionManager.add(roomId, session, name);
-        broadcastState(roomId);
+        broadcastState(roomId); // broadcast the current state to everybody in the room
     }
 
     @Override
@@ -70,6 +73,11 @@ public class RoomWebSocketHandler extends TextWebSocketHandler {
         broadcastState(roomId);
     }
 
+    /*
+     * RoomConnectionManager removes the socket connection, not the participant's vote.
+     * Votes belong to names in Room.votes,
+     * so a participant who reconnects using the same name can retain their vote for the current round
+     */
     @Override
     public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus status) {
         String roomId = roomIdOf(session);

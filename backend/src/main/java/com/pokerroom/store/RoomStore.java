@@ -18,6 +18,7 @@ public class RoomStore {
     private final Map<String, Room> rooms = new ConcurrentHashMap<>();
     private final SecureRandom random = new SecureRandom();
 
+    // the loop stops only when it generates an ID that does not exist
     public Room createRoom() {
         String id;
         do {

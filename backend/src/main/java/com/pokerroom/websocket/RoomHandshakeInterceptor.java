@@ -25,6 +25,12 @@ public class RoomHandshakeInterceptor implements HandshakeInterceptor {
             WebSocketHandler wsHandler,
             Map<String, Object> attributes
     ) {
+        // For this connection URL: ws://localhost:8080/ws/rooms/ABC123?name=Octavian
+        // path becomes: /ws/rooms/ABC123
+        // This extracts everything after the final /
+        // path.lastIndexOf('/') finds the position of the last slash.
+        // + 1 moves to the first character after that slash.
+        // substring(...) returns the text from there until the end
         String path = request.getURI().getPath();
         String roomId = path.substring(path.lastIndexOf('/') + 1);
 
@@ -33,6 +39,7 @@ public class RoomHandshakeInterceptor implements HandshakeInterceptor {
             return false;
         }
 
+        // It gets the name value from the URL query parameters.
         String name = UriComponentsBuilder.fromUri(request.getURI())
                 .build()
                 .getQueryParams()

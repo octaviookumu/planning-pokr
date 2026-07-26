@@ -27,6 +27,11 @@ public class WebSocketConfig implements WebSocketConfigurer {
         this.allowedOrigins = allowedOrigins.split(",");
     }
 
+    /**
+     * Phase 4: Registers the room WebSocket endpoint at {@code /ws/rooms/*},
+     * attaches a {@link RoomHandshakeInterceptor} to validate join requests,
+     * and applies the configured allowed-origin rules.
+     */
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry
