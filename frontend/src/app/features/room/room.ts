@@ -40,9 +40,14 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.roomService.checkRoom(this.roomId).subscribe({
       next: () => {
         this.loading.set(false);
+
+        const queryName = this.route.snapshot.queryParamMap.get('name');
         const savedName = sessionStorage.getItem(this.storageKey());
-        if (savedName) {
-          this.joinAs(savedName);
+        const initialName = queryName ?? savedName;
+
+        if (initialName) {
+          this.nameInput.set(initialName);
+          this.joinAs(initialName);
         }
       },
       error: () => {

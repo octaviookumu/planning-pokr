@@ -33,11 +33,11 @@
           <h1>Estimation room</h1>
           <span class="conn-label">
             <span class="conn-dot" [class.live]="connected()"></span>
-            {{ connected() ? "connected" : "connecting…" }}
+            {{ connected() ? 'connected' : 'connecting…' }}
           </span>
         </div>
         <button class="ghost-btn" (click)="copyLink()">
-          {{ linkCopied() ? "Link copied" : "Copy invite link" }}
+          {{ linkCopied() ? 'Link copied' : 'Copy invite link' }}
         </button>
       </div>
 
@@ -66,17 +66,12 @@
             <div class="participant-id">
               <div class="avatar">{{ initials(p.name) }}</div>
               <span class="p-name"
-                >{{ p.name }}{{ p.name === myName() ? " (you)" : "" }}</span
+                >{{ p.name }}{{ p.name === myName() ? ' (you)' : '' }}</span
               >
             </div>
             <span class="vote-box mono" [class.filled]="p.has_voted">
-              {{
-                roomState()?.revealed
-                  ? (p.value ?? "\u2013")
-                  : p.has_voted
-                    ? "\u2022"
-                    : "\u2013"
-              }}
+              {{ roomState()?.revealed ? (p.value ?? '\u2013') : (p.has_voted ?
+              '\u2022' : '\u2013') }}
             </span>
           </div>
           <p
@@ -98,7 +93,7 @@
             [disabled]="roomState()?.revealed"
             (click)="vote(v)"
           >
-            <span class="mono">{{ v === "coffee" ? "☕" : v }}</span>
+            <span class="mono">{{ v === 'coffee' ? '☕' : v }}</span>
           </button>
         </div>
       </div>
